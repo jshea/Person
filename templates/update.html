@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Update Contact</title>
+{% endblock %}
+
+{% block body %}
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/add">Add</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+
+<div class="content">
+    <h1 style="text-align: center">Update Contact</h1>
+
+    <div class="form">
+        <form action="/update/{{contact.id}}" method="POST">
+            <table style="border:none">
+                <tr>
+                    <td>First name</td>
+                    <td><input type="text" name="first_name" id="first_name" value="{{contact.first_name}}"></td>
+                </tr>
+                <tr>
+                    <td>Last name</td>
+                    <td><input type="text" name="last_name" id="last_name" value="{{contact.last_name}}"></td>
+                </tr>
+                <tr>
+                    <td>Street</td>
+                    <td><input type="text" name="street" id="street" value="{{contact.street}}"></td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td><input type="text" name="city" id="city" value="{{contact.city}}"></td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td><input type="text" name="state" id="state" value="{{contact.state}}"></td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td><input type="text" name="zip" id="zip" value="{{contact.zip}}"></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td><input type="text" name="phone" id="phone" value="{{contact.phone}}"></td>
+                </tr>
+                <tr>
+                    <td>eMail</td>
+                    <td><input type="text" name="email" id="email" value="{{contact.email}}"></td>
+                </tr>
+                <tr>
+                    <td>Birthday</td>
+                    <td><input type="text" name="birthday" id="birthday" value="{{contact.birthday}}"></td>
+                </tr>
+            </table>
+            <p></p>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</div>
+{% endblock %}

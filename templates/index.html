@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Contact Data</title>
+{% endblock %}
+
+{% block body %}
+<ul>
+    <li><a href="/" class="active">Home</a></li>
+    <li><a href="/add">Add</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+
+<div class="content">
+    <h1 style="text-align: center">Contacts</h1>
+
+    {% if contacts|length < 1 %}
+    <h4 style="text-align: center">There are no contacts. Create someone below!</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Contact</th>
+            <th>Actions</th>
+        </tr>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+                <td>
+                    <a href="/delete/{{contact.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{contact.id}}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</div>
+{% endblock %}
