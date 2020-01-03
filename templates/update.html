@@ -7,7 +7,7 @@
 {% block body %}
 <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/add">Add</a></li>
+    <li><a href="/contact">Add</a></li>
     <li><a href="/about">About</a></li>
 </ul>
 
@@ -50,8 +50,8 @@
                     <td><input type="text" name="email" id="email" value="{{contact.email}}"></td>
                 </tr>
                 <tr>
-                    <td>Birthday</td>
-                    <td><input type="text" name="birthday" id="birthday" value="{{contact.birthday}}"></td>
+                    <td>Birthday (mm/dd/yyyy)</td>
+                    <td><input type="text" name="birthday" id="birthday" value="{{contact.birthday.strftime('%m/%d/%Y')}}"></td>
                 </tr>
             </table>
             <p></p>

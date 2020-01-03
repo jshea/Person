@@ -25,15 +25,16 @@ pip install -r requirements.txt   # Install libs after a git clone or pull of up
 ### Initialize the sqlite database - In the shell:
 ```
 python
->>> from app import db, Contact
+>>> from contacts import db, Contact
+>>> from datetime import datetime
 >>> db.create_all()
 
 # Optionally seed some data
 
-fred = Contact(first_name='Fred', last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com', birthday='1970-01-01')
-wilma = Contact(first_name='Wilma', last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday='1970-02-01')
-barney = Contact(first_name='Barney', last_name='Rubble', street='123 Granite', city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com', birthday='1970-03-01')
-betty = Contact(first_name='Betty', last_name='Rubble', street='123 Granite', city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday='1970-04-01')
+fred =   Contact(first_name='Fred',  last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',  birthday=datetime.strptime('01/01/1970', '%m/%d/%Y'))
+wilma =  Contact(first_name='Wilma', last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.strptime('02/01/1970', '%m/%d/%Y'))
+barney = Contact(first_name='Barney',last_name='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com',birthday=datetime.strptime('03/01/1970', '%m/%d/%Y'))
+betty =  Contact(first_name='Betty', last_name='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.strptime('04/01/1970', '%m/%d/%Y'))
 
 db.session.add(fred)
 db.session.add(wilma)

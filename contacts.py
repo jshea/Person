@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify # Some will be used for form processing
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-# from datetime import datetime
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False            # Turn off SQLAlchemy high overhead warning
@@ -21,7 +21,7 @@ class Contact(db.Model):
     zip        = db.Column(db.String(5))
     phone      = db.Column(db.String(10))
     email      = db.Column(db.String(100))
-    birthday   = db.Column(db.String(10))
+    birthday   = db.Column(db.DateTime)
 
     def __repr__(self):
         return  '<Contact "first_name": "%s", "last_name": "%s" >' % (self.first_name, self.last_name)
@@ -53,36 +53,17 @@ def get_all():
 @app.route('/contact/<string:id>')
 def get_contact(id):
     contact = Contact.query.get(id)   # Select by primary key
-    return contact                   # TODO - Check FreeCodeCamp example
-
-
-# Add a contact - show form
-@app.route('/add', methods=['GET'])
-def add_form():
-    return render_template('add.html')
+    return render_template('view.html', contact=contact)
 
 
 # Add a contact
-@app.route('/contact', methods=['POST'])
+# TODO - Validate birthday is a valid mm/dd/yyyy or is blank. Return error message otherwise.
+@app.route('/contact', methods=['GET', 'POST'])
 def add():
-    contact = Contact()
-    contact.first_name = request.form['first_name']
-    contact.last_name  = request.form['last_name']
-
-    try:
-        db.session.add(contact)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return 'There was an issue adding your task'
-
-
-# Update a contact
-@app.route('/update/<string:id>', methods=['GET', 'POST'])
-def update(id):
-    contact = Contact.query.get_or_404(id)    # Select by primary key
-
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template('add.html')
+    else:
+        contact = Contact()
         contact.first_name = request.form['first_name']
         contact.last_name  = request.form['last_name']
         contact.street     = request.form['street']
@@ -91,15 +72,39 @@ def update(id):
         contact.zip        = request.form['zip']
         contact.phone      = request.form['phone']
         contact.email      = request.form['email']
-        contact.birthday   = request.form['birthday']
+        contact.birthday   = datetime.strptime(request.form['birthday'], '%m/%d/%Y')
+
+        try:
+            db.session.add(contact)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your contact'
+
+
+# Update a contact
+@app.route('/update/<string:id>', methods=['GET', 'POST'])
+def update(id):
+    contact = Contact.query.get_or_404(id)    # Select by primary key
+
+    if request.method == 'GET':
+        return render_template('update.html', contact=contact)
+    else:
+        contact.first_name = request.form['first_name']
+        contact.last_name  = request.form['last_name']
+        contact.street     = request.form['street']
+        contact.city       = request.form['city']
+        contact.state      = request.form['state']
+        contact.zip        = request.form['zip']
+        contact.phone      = request.form['phone']
+        contact.email      = request.form['email']
+        contact.birthday   = datetime.strptime(request.form['birthday'], '%m/%d/%Y')
 
         try:
             db.session.commit()
             return redirect('/')
         except:
-            return 'There was an issue adding your task'
-    else:
-        return render_template('update.html', contact=contact)
+            return 'There was an issue adding your contact'
 
 
 # Delete a contact - Note different URL than REST API
@@ -152,7 +157,7 @@ def rest_add():
     contact.zip        = request_data['zip']
     contact.phone      = request_data['phone']
     contact.email      = request_data['email']
-    contact.birthday   = request_data['birthday']
+    contact.birthday   = datetime.strptime(request.form['birthday'], '%m/%d/%Y')
 
     try:
         db.session.add(contact)
@@ -162,7 +167,30 @@ def rest_add():
         added_contact = Contact.query.get_or_404(new_id)
         return contact_schema.dump(added_contact)
     except:
-        return 'There was an issue adding your task'
+        return 'There was an issue adding your contact'
+
+
+# Update a contact
+@app.route('/api/contact/<string:id>', methods=['POST'])
+def rest_update(id):
+    request_data = request.get_json()         # Get data sent to us
+    contact = Contact.query.get_or_404(id)    # Get current data from the db by primary key
+
+    contact.first_name = request_data['first_name']
+    contact.last_name  = request_data['last_name']
+    contact.street     = request_data['street']
+    contact.city       = request_data['city']
+    contact.state      = request_data['state']
+    contact.zip        = request_data['zip']
+    contact.phone      = request_data['phone']
+    contact.email      = request_data['email']
+    contact.birthday   = datetime.strptime(request_data['birthday'], '%m/%d/%Y')
+
+    try:
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was an issue adding your contact'
 
 
 # Delete a contact
