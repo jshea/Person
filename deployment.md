@@ -1,12 +1,9 @@
 # Deployment infrastructure
-A Python/Flask application will handle a single request at a time. Running multiple instances of your application is handled by middleware
-supporting the Web Server Gateway Interface ([WSGI](https://wikipedia.org/wiki/Web_Server_Gateway_Interface)). Flask has a WSGI server
-suitable for development. For production usig a WSGI server as middleware between a proxy server (NGINX/Apache) and the Flask application
-allows pooling instances of the Flask application.
+A Python/Flask application will handle a single request at a time. Running multiple instances of your application is handled by middleware supporting the Web Server Gateway Interface ([WSGI](https://wikipedia.org/wiki/Web_Server_Gateway_Interface)). Flask has a WSGI server suitable for development. For production usig a WSGI server as middleware between a proxy server (NGINX/Apache) and the Flask application allows pooling instances of the Flask application.
 
 ## Proxy Server
 [NGINX](https://nginx.com/) is an industry standard proxy server. This uses the Open Source version of NGINX with the following configration from the Flask docs https://flask.palletsprojects.com/en/1.1.x/deploying/wsgi-standalone/#proxy-setup.
-```
+```conf
 server {
   listen       80;
   server_name  localhost;
@@ -32,6 +29,10 @@ server {
 }
 
 ```
+Run nginx with this command
+```bash
+nginx
+```
 
 ## WSGI Server
 >[Waitress](https://docs.pylonsproject.org/projects/waitress/) "is meant to be a production-quality pure-Python WSGI server with very acceptable performance. It has no dependencies except ones which live in the Python standard library. It runs on CPython on Unix and Windows under Python 2.7+ and Python 3.4+."
@@ -41,3 +42,15 @@ contacts app, listening on port 5000. The Waitress [default](https://docs.pylons
 ```
 waitress-serve --listen=*:5000 contacts:app
 ```
+
+## Accessing via browser or REST application
+Use http://localhost to run the web application.
+
+Use the following APIs for your REST application
+| API | URL | Method | Description |
+|-----|-----|--------|-------------|
+| Get all data   | http://localhost/api/all/      | GET    | Retrieves all data |
+| Get one person | http://localhost/api/contact/X | GET    | Retrieves person with the id of X |
+| Add            | http://localhost/api/contact   | POST   | Add a person |
+| Update         | http://localhost/api/contact   | PUT    | Update person |
+| Delete         | http://localhost/api/contact/X | DELETE | Delete person with the id of X |

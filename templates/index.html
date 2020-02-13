@@ -6,34 +6,34 @@
 
 {% block body %}
 <ul>
-    <li><a href="/" class="active">Home</a></li>
-    <li><a href="/contact">Add</a></li>
-    <li><a href="/about">About</a></li>
+  <li><a href="/" class="active">Home</a></li>
+  <li><a href="/contact">Add</a></li>
+  <li><a href="/about">About</a></li>
 </ul>
 
 <div class="content">
-    <h1 style="text-align: center">Contacts</h1>
+  <h1 style="text-align: center">Contacts</h1>
 
-    {% if contacts|length < 1 %}
-    <h4 style="text-align: center">There are no contacts. Create someone</h4> <a href="/contact"><h4>here</h4></a>
-    {% else %}
-    <table>
-        <tr>
-            <th>Contact</th>
-            <th>Actions</th>
-        </tr>
-        {% for contact in contacts %}
-            <tr>
-                <td><a href="/contact/{{contact.id}}">{{ contact.first_name }} {{ contact.last_name }}</a></td>
-                <td>
-                    <a href="/delete/{{contact.id}}">Delete</a>
-                    <br>
-                    <a href="/update/{{contact.id}}">Update</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+  {% if contacts|length < 1 %}
+  <h4 style="text-align: center">There are no contacts. Create someone</h4> <a href="/contact"><h4>here</h4></a>
+  {% else %}
+  <table>
+    <tr>
+      <th>Contact</th>
+      <th>Actions</th>
+    </tr>
+    {% for contact in contacts %}
+      <tr>
+        <td><a href="/contact/{{contact.id}}">{{ contact.firstName }} {{ contact.lastName }}</a></td>
+        <td>
+          <a href="/delete/{{contact.id}}">Delete</a>
+          <br>
+          <a href="/update/{{contact.id}}">Update</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
 
 </div>
 {% endblock %}
