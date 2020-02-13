@@ -26,16 +26,16 @@ pip install -r requirements.txt   # Install libs after a git clone or pull of up
 In the shell:
 ```
 python
->>> from contacts import db, Contact
+>>> from person import db, Person
 >>> from datetime import datetime
 >>> db.create_all()
 
 # Optionally seed some data
 
-fred =   Contact(firstNme='Fred',  lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',  birthday=datetime.fromisoformat('1970-01-01'))
-wilma =  Contact(firstNme='Wilma', lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.fromisoformat('1970-02-01'))
-barney = Contact(firstNme='Barney',lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com',birthday=datetime.fromisoformat('1970-03-01'))
-betty =  Contact(firstNme='Betty', lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.fromisoformat('1970-04-01'))
+fred =   Person(firstNme='Fred',  lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',  birthday=datetime.fromisoformat('1970-01-01'))
+wilma =  Person(firstNme='Wilma', lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.fromisoformat('1970-02-01'))
+barney = Person(firstNme='Barney',lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com',birthday=datetime.fromisoformat('1970-03-01'))
+betty =  Person(firstNme='Betty', lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.fromisoformat('1970-04-01'))
 
 db.session.add(fred)
 db.session.add(wilma)
@@ -43,7 +43,7 @@ db.session.add(barney)
 db.session.add(betty)
 db.session.commit()
 
-Contact.query.all()
+Person.query.all()
 
 >>> exit()
 ```
