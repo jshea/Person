@@ -32,10 +32,10 @@ python
 
 # Optionally seed some data
 
-fred =   Contact(first_name='Fred',  last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',  birthday=datetime.strptime('01/01/1970', '%m/%d/%Y'))
-wilma =  Contact(first_name='Wilma', last_name='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.strptime('02/01/1970', '%m/%d/%Y'))
-barney = Contact(first_name='Barney',last_name='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com',birthday=datetime.strptime('03/01/1970', '%m/%d/%Y'))
-betty =  Contact(first_name='Betty', last_name='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.strptime('04/01/1970', '%m/%d/%Y'))
+fred =   Contact(firstNme='Fred',  lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',  birthday=datetime.fromisoformat('1970-01-01'))
+wilma =  Contact(firstNme='Wilma', lastNme='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.fromisoformat('1970-02-01'))
+barney = Contact(firstNme='Barney',lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com',birthday=datetime.fromisoformat('1970-03-01'))
+betty =  Contact(firstNme='Betty', lastNme='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.fromisoformat('1970-04-01'))
 
 db.session.add(fred)
 db.session.add(wilma)
