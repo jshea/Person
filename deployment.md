@@ -38,9 +38,9 @@ nginx
 >[Waitress](https://docs.pylonsproject.org/projects/waitress/) "is meant to be a production-quality pure-Python WSGI server with very acceptable performance. It has no dependencies except ones which live in the Python standard library. It runs on CPython on Unix and Windows under Python 2.7+ and Python 3.4+."
 
 Using the above NGINX configuration which forwards to localhost on port 5000, this command will run the
-contacts app, listening on port 5000. The Waitress [default](https://docs.pylonsproject.org/projects/waitress/en/stable/runner.html#runner) is to run 4 threads.
+person app, listening on port 5000. The Waitress [default](https://docs.pylonsproject.org/projects/waitress/en/stable/runner.html#runner) is to run 4 threads.
 ```
-waitress-serve --listen=*:5000 contacts:app
+waitress-serve --listen=*:5000 app:app
 ```
 
 ## Accessing via browser or REST application
@@ -50,7 +50,7 @@ Use the following APIs for your REST application
 | API | URL | Method | Description |
 |-----|-----|--------|-------------|
 | Get all data   | http://localhost/api/all/      | GET    | Retrieves all data |
-| Get one person | http://localhost/api/contact/X | GET    | Retrieves person with the id of X |
-| Add            | http://localhost/api/contact   | POST   | Add a person |
-| Update         | http://localhost/api/contact   | PUT    | Update person |
-| Delete         | http://localhost/api/contact/X | DELETE | Delete person with the id of X |
+| Get one person | http://localhost/api/person/X | GET    | Retrieves person with the id of X |
+| Add            | http://localhost/api/person   | POST   | Add a person |
+| Update         | http://localhost/api/person   | PUT    | Update person |
+| Delete         | http://localhost/api/person/X | DELETE | Delete person with the id of X |

@@ -1,57 +1,57 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Update Contact</title>
+<title>Update Person</title>
 {% endblock %}
 
 {% block body %}
 <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/contact">Add</a></li>
+    <li><a href="/person">Add</a></li>
     <li><a href="/about">About</a></li>
 </ul>
 
 <div class="content">
-  <h1 style="text-align: center">Update Contact</h1>
+  <h1 style="text-align: center">Update Person</h1>
 
   <div class="form">
-    <form action="/update/{{contact.id}}" method="POST">
+    <form action="/update/{{person.id}}" method="POST">
       <table style="border:none">
         <tr>
           <td>First name</td>
-          <td><input type="text" name="firstName" id="firstName" value="{{contact.firstName}}"></td>
+          <td><input type="text" name="firstName" id="firstName" value="{{person.firstName}}"></td>
         </tr>
         <tr>
           <td>Last name</td>
-          <td><input type="text" name="lastName" id="lastName" value="{{contact.lastName}}"></td>
+          <td><input type="text" name="lastName" id="lastName" value="{{person.lastName}}"></td>
         </tr>
         <tr>
           <td>Street</td>
-          <td><input type="text" name="street" id="street" value="{{contact.street}}"></td>
+          <td><input type="text" name="street" id="street" value="{{person.street}}"></td>
         </tr>
         <tr>
           <td>City</td>
-          <td><input type="text" name="city" id="city" value="{{contact.city}}"></td>
+          <td><input type="text" name="city" id="city" value="{{person.city}}"></td>
         </tr>
         <tr>
           <td>State</td>
-          <td><input type="text" name="state" id="state" value="{{contact.state}}"></td>
+          <td><input type="text" name="state" id="state" value="{{person.state}}"></td>
         </tr>
         <tr>
           <td>Zip</td>
-          <td><input type="text" name="zip" id="zip" value="{{contact.zip}}"></td>
+          <td><input type="text" name="zip" id="zip" value="{{person.zip}}"></td>
         </tr>
         <tr>
           <td>Phone</td>
-          <td><input type="text" name="phone" id="phone" value="{{contact.phone}}"></td>
+          <td><input type="text" name="phone" id="phone" value="{{person.phone}}"></td>
         </tr>
         <tr>
           <td>eMail</td>
-          <td><input type="text" name="email" id="email" value="{{contact.email}}"></td>
+          <td><input type="text" name="email" id="email" value="{{person.email}}"></td>
         </tr>
         <tr>
           <td>Birthday (yyyy-mm-dd)</td>
-          <td><input type="text" name="birthday" id="birthday" value="{% if contact.birthday is none %} xxx {% else %} {{contact.birthday.strftime('%Y-%m-%d')}} {% endif %}"></td>
+          <td><input type="text" name="birthday" id="birthday" value="{% if person.birthday is none %} xxx {% else %} {{person.birthday.strftime('%Y-%m-%d')}} {% endif %}"></td>
         </tr>
       </table>
       <p></p>

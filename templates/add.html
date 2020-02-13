@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Add Contact</title>
+<title>Add Person</title>
 {% endblock %}
 
 {% block body %}
 <ul>
   <li><a href="/">Home</a></li>
-  <li><a href="/contact" class="active">Add</a></li>
+  <li><a href="/person" class="active">Add</a></li>
   <li><a href="/about">About</a></li>
 </ul>
 
 <div class="content">
-  <h1 style="text-align: center">Add Contact</h1>
+  <h1 style="text-align: center">Add Person</h1>
 
   <div class="form">
-    <form action="/contact" method="POST">
+    <form action="/person" method="POST">
       <table style="border:none">
         <tr>
           <td>First name</td>
