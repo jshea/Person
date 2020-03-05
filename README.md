@@ -26,7 +26,7 @@ pip install -r requirements.txt   # Install libs after a git clone or pull of up
 In the shell:
 ```
 python
->>> from person import db, Person
+>>> from app import db, Person
 >>> from datetime import datetime
 >>> db.create_all()
 
