@@ -4,7 +4,7 @@ from flask_marshmallow import Marshmallow, fields
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False            # Turn off SQLAlchemy high overhead warning
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False          # Turn off SQLAlchemy high overhead warning
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///person.db' # Three slashes indicates a relative path
 
 # Order matters (per https://flask-marshmallow.readthedocs.io/)
@@ -22,19 +22,45 @@ class Person(db.Model):
     phone     = db.Column(db.String(10))
     email     = db.Column(db.String(100))
     birthday  = db.Column(db.DateTime)
+    hobbies   = db.relationship('Hobby', backref='person', lazy=True)
+    pets      = db.relationship('Pet',   backref='person', lazy=True)
 
     def __repr__(self):
         return  '<Person "firstName": "%s", "lastName": "%s" >' % (self.firstName, self.lastName)
 
+class Hobby(db.Model):
+    id        = db.Column(db.Integer, primary_key=True)
+    name      = db.Column(db.String(100), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=False)
+
+class Pet(db.Model):
+    id        = db.Column(db.Integer, primary_key=True)
+    name      = db.Column(db.String(120), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=False)
+
+
 # Marshmallow serialization
 # https://github.com/marshmallow-code/flask-marshmallow
+class HobbySchema(ma.ModelSchema):
+    class Meta:
+        # Fields to expose
+        model = Hobby
+
+class PetSchema(ma.ModelSchema):
+    class Meta:
+        # Fields to expose
+        model = Pet
+
 class PersonSchema(ma.ModelSchema):
+    hobbies = ma.Nested(HobbySchema, many=True)
+    pets = ma.Nested(PetSchema, many=True)
     class Meta:
         # Fields to expose
         model = Person
 
 person_schema  = PersonSchema()
 people_schema = PersonSchema(many=True)
+
 
 
 """
@@ -216,15 +242,41 @@ def rest_initialize():
     try:
         # Delete all data from the 'Person' table
         db.session.query(Person).delete()
+        db.session.query(Hobby).delete()
+        db.session.query(Pet).delete()
         db.session.commit()
-        # Reset rowid for the 'Person' table. This way we know the ids for test access to the data.
+        # Reset rowid for the tables. This way we know the ids for test access to the data.
         db.engine.execute("reindex 'Person'")
+        db.engine.execute("reindex 'Hobby'")
+        db.engine.execute("reindex 'Pet'")
         db.session.commit()
 
-        fred =   Person(firstName='Fred',  lastName='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com',   birthday=datetime.fromisoformat('1970-01-01'))
-        wilma =  Person(firstName='Wilma', lastName='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com',  birthday=datetime.fromisoformat('1970-02-01'))
-        barney = Person(firstName='Barney',lastName='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com', birthday=datetime.fromisoformat('1970-03-01'))
-        betty =  Person(firstName='Betty', lastName='Rubble',     street='123 Granite St',    city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com',  birthday=datetime.fromisoformat('1970-04-01'))
+        fred = Person(firstName='Fred', lastName='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='fred@bedrock.com', birthday=datetime.fromisoformat('1970-01-01'))
+        fred.hobbies.append(Hobby(name='Duct Tape Art'))
+        fred.hobbies.append(Hobby(name='Handcuff Collecting'))
+        fred.hobbies.append(Hobby(name='Beetle Fighting'))
+        fred.pets.append(Pet(name='Droolius Caesar'))
+        fred.pets.append(Pet(name='Catabunga'))
+
+        wilma = Person(firstName='Wilma', lastName='Flintstone', street='345 Cave Stone Rd', city='Bedrock', state='NA', zip='123', phone='1', email='wilma@bedrock.com', birthday=datetime.fromisoformat('1970-02-01'))
+        wilma.hobbies.append(Hobby(name='Javelin Catching'))
+        wilma.hobbies.append(Hobby(name='Competitive Rock Paper Scissors'))
+        wilma.pets.append(Pet(name='Sarah Jessica Barker'))
+        wilma.pets.append(Pet(name='Winnie the Poodle'))
+
+        barney = Person(firstName='Barney',lastName='Rubble', street='123 Granite St', city='Bedrock', state='NA', zip='123', phone='2', email='barney@bedrock.com', birthday=datetime.fromisoformat('1970-03-01'))
+        barney.hobbies.append(Hobby(name='Time travel'))
+        barney.hobbies.append(Hobby(name='Snake skin collecting'))
+        barney.hobbies.append(Hobby(name='Arguing with people online'))
+        barney.pets.append(Pet(name='Salvador Dogi'))
+        barney.pets.append(Pet(name='Schrodinger'))
+
+        betty = Person(firstName='Betty', lastName='Rubble', street='123 Granite St', city='Bedrock', state='NA', zip='123', phone='2', email='betty@bedrock.com', birthday=datetime.fromisoformat('1970-04-01'))
+        betty.hobbies.append(Hobby(name='Stalking celebrities'))
+        betty.hobbies.append(Hobby(name='Ferret racing'))
+        betty.pets.append(Pet(name='Sir Barks-a-Lot'))
+        betty.pets.append(Pet(name='Thundercat'))
+
 
         db.session.add(fred)
         db.session.add(wilma)
@@ -235,8 +287,9 @@ def rest_initialize():
         all_data = Person.query.order_by(Person.lastName, Person.firstName).all()
         return jsonify(people_schema.dump(all_data))
     except Exception as e:
-        return 'There was an issue initializing the data store ' + str(e)
+        return 'There was an issue initializing the data store - ' + str(e)
 
-# When run from the commandline, launch a local server. This is for development only!
+# When run from the commandline, launch a local server. When functions are
+# imported into another program this file doesn't run.
 if __name__ == "__main__":
     app.run(debug=True)

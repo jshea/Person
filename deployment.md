@@ -49,7 +49,7 @@ Use http://localhost to run the web application.
 Use the following APIs for your REST application
 | API | URL | Method | Description |
 |-----|-----|--------|-------------|
-| Get all data   | http://localhost/api/all/      | GET    | Retrieves all data |
+| Get all data   | http://localhost/api/all/     | GET    | Retrieves all data |
 | Get one person | http://localhost/api/person/X | GET    | Retrieves person with the id of X |
 | Add            | http://localhost/api/person   | POST   | Add a person |
 | Update         | http://localhost/api/person   | PUT    | Update person |
